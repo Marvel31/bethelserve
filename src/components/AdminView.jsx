@@ -967,6 +967,17 @@ function VolunteerSelectionTab({ enabledDates, weekends, volunteers, year }) {
                 </div>
               </div>
 
+              {/* 선택 요약 */}
+              <div className="selection-summary">
+                <h4>선택 요약</h4>
+                <textarea
+                  className="summary-textarea"
+                  readOnly
+                  onClick={(e) => e.target.select()}
+                  value={`- 해설: ${roleSelections[ROLES.COMMENTARY].length > 0 ? roleSelections[ROLES.COMMENTARY].map(id => availableVolunteers.find(v => v.id === id)?.name || '').join(', ') : ''}\n- 1독서: ${roleSelections[ROLES.READING_1].length > 0 ? availableVolunteers.find(v => v.id === roleSelections[ROLES.READING_1][0])?.name || '' : ''}\n- 2독서: ${roleSelections[ROLES.READING_2].length > 0 ? availableVolunteers.find(v => v.id === roleSelections[ROLES.READING_2][0])?.name || '' : ''}\n- 보편1: ${roleSelections[ROLES.PRAYER_1].length > 0 ? availableVolunteers.find(v => v.id === roleSelections[ROLES.PRAYER_1][0])?.name || '' : ''}\n- 보편2: ${roleSelections[ROLES.PRAYER_2].length > 0 ? availableVolunteers.find(v => v.id === roleSelections[ROLES.PRAYER_2][0])?.name || '' : ''}\n- 보편3: ${roleSelections[ROLES.PRAYER_3].length > 0 ? availableVolunteers.find(v => v.id === roleSelections[ROLES.PRAYER_3][0])?.name || '' : ''}\n- 보편4: ${roleSelections[ROLES.PRAYER_4].length > 0 ? availableVolunteers.find(v => v.id === roleSelections[ROLES.PRAYER_4][0])?.name || '' : ''}`}
+                />
+              </div>
+
               <button
                 className="save-button"
                 onClick={handleSave}

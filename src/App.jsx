@@ -2,6 +2,7 @@ import { useState } from 'react'
 import VolunteerView from './components/VolunteerView'
 import AdminView from './components/AdminView'
 import AnnouncementView from './components/AnnouncementView'
+import UniversalPrayerView from './components/UniversalPrayerView'
 import './App.css'
 
 // 관리자 모드 비밀번호 (실제 사용 시 환경 변수로 관리하세요)
@@ -9,7 +10,7 @@ const ADMIN_PASSWORD = 'admin123'
 
 export default function App() {
   // 항상 공지사항 모드로 시작
-  const [mode, setMode] = useState('announcement') // 'volunteer', 'admin', 'announcement'
+  const [mode, setMode] = useState('announcement') // 'volunteer', 'admin', 'announcement', 'universal'
   const [isAdmin, setIsAdmin] = useState(false)
   const [passwordInput, setPasswordInput] = useState('')
   const [showPasswordInput, setShowPasswordInput] = useState(false)
@@ -82,14 +83,12 @@ export default function App() {
         >
           봉사 신청
         </button>
-        {isAdmin && (
-          <button
-            className={mode === 'admin' ? 'active' : ''}
-            onClick={() => handleModeChange('admin')}
-          >
-            설정
-          </button>
-        )}
+        <button
+          className={mode === 'universal' ? 'active' : ''}
+          onClick={() => handleModeChange('universal')}
+        >
+          보편
+        </button>
         <div className="settings-container">
           <button 
             className="settings-button"
@@ -101,7 +100,10 @@ export default function App() {
           {showDropdown && (
             <div className="dropdown-menu">
               {isAdmin ? (
-                <button onClick={handleLogout}>로그아웃</button>
+                <>
+                  <button onClick={() => { handleModeChange('admin'); setShowDropdown(false); }}>설정</button>
+                  <button onClick={handleLogout}>로그아웃</button>
+                </>
               ) : (
                 <button onClick={handleAdminMenuClick}>로그인</button>
               )}
@@ -137,6 +139,7 @@ export default function App() {
         {mode === 'volunteer' && <VolunteerView key="volunteer" />}
         {mode === 'admin' && isAdmin && <AdminView key="admin" />}
         {mode === 'announcement' && <AnnouncementView key="announcement" isAdmin={isAdmin} />}
+        {mode === 'universal' && <UniversalPrayerView key="universal" />}
       </main>
     </div>
   )

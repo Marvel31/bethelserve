@@ -9,7 +9,8 @@ const PATHS = {
   enabledDates: 'enabledDates',
   monthOpenStatus: 'monthOpenStatus',
   selectedByRole: 'selectedByRole',
-  announcements: 'announcements'
+  announcements: 'announcements',
+  universalPrayers: 'universalPrayers'
 }
 
 // 역할 상수
@@ -462,5 +463,64 @@ export async function getVolunteerServiceCount(volunteerId, year) {
   }
   
   return counts
+}
+
+/**
+ * 보편 지향 기도 텍스트 저장
+ * @param {string} dateString - 날짜 (YYYY-MM-DD)
+ * @param {number} prayerNumber - 기도 번호 (1-4)
+ * @param {string} text - 기도 텍스트
+ */
+export async function setPrayerText(dateString, prayerNumber, text) {
+  const prayerRef = ref(db, `${PATHS.universalPrayers}/${dateString}/prayer${prayerNumber}`)
+  await set(prayerRef, {
+    text: text.trim(),
+    updatedAt: new Date().toISOString()
+  })
+}
+
+/**
+ * 보편 지향 기도 텍스트 조회
+ * @param {string} dateString - 날짜 (YYYY-MM-DD)
+ * @param {number} prayerNumber - 기도 번호 (1-4)
+ * @returns {string} 기도 텍스트
+ */
+export async function getPrayerText(dateString, prayerNumber) {
+  const prayerRef = ref(db, `${PATHS.universalPrayers}/${dateString}/prayer${prayerNumber}`)
+  const snapshot = await get(prayerRef)
+  
+  if (!snapshot.exists()) {
+    return ''
+  }
+  
+  const data = snapshot.val()
+  return data.text || ''
+}
+
+/**
+ * 특정 날짜의 모든 보편 지향 기도 조회
+ * @param {string} dateString - 날짜 (YYYY-MM-DD)
+ * @returns {Object} { prayer1: string, prayer2: string, prayer3: string, prayer4: string }
+ */
+export async function getAllPrayersForDate(dateString) {
+  const prayerRef = ref(db, `${PATHS.universalPrayers}/${dateString}`)
+  const snapshot = await get(prayerRef)
+  
+  if (!snapshot.exists()) {
+    return {
+      prayer1: '',
+      prayer2: '',
+      prayer3: '',
+      prayer4: ''
+    }
+  }
+  
+  const data = snapshot.val()
+  return {
+    prayer1: data.prayer1?.text || '',
+    prayer2: data.prayer2?.text || '',
+    prayer3: data.prayer3?.text || '',
+    prayer4: data.prayer4?.text || ''
+  }
 }
 
