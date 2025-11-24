@@ -74,16 +74,22 @@
 
 .volunteer-info {
   background: white;
-  padding: 15px;
-  border-radius: 8px;
+  padding: 25px;
+  border-radius: 12px;
   margin-bottom: 20px;
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }
 
 .volunteer-info p {
   margin: 0;
-  color: #666;
+  color: #333;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .month-selector {
@@ -188,19 +194,22 @@
 }
 
 .change-name-button {
-  margin-left: 10px;
-  padding: 6px 12px;
+  padding: 12px 24px;
   background: #6c757d;
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .change-name-button:hover {
   background: #5a6268;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 .closed-notice {
@@ -334,6 +343,21 @@
   .month-selector-section {
     padding: 15px 10px;
     border-radius: 0;
+  }
+
+  .volunteer-info {
+    flex-direction: column;
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .volunteer-info p {
+    font-size: 18px;
+  }
+
+  .change-name-button {
+    width: 100%;
+    max-width: 200px;
   }
 
   .volunteer-availability {
