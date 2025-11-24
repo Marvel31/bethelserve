@@ -226,7 +226,7 @@ export default function VolunteerView() {
       ) : (
         <>
           <div className="volunteer-info">
-            <p>선택된 이름: <strong>{localStorage.getItem('volunteerName')}</strong></p>
+            <p><strong>{localStorage.getItem('volunteerName')}</strong></p>
             <button className="change-name-button" onClick={() => {
               setVolunteerId(null)
               setSelectedVolunteerName('')
