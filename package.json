@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "@ant-design/icons": "^6.1.0",
+    "antd": "^6.0.0",
+    "date-fns": "^3.0.6",
     "firebase": "^10.7.1",
-    "date-fns": "^3.0.6"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
@@ -22,5 +24,3 @@
     "vite-plugin-pwa": "^0.17.4"
   }
 }
-
-

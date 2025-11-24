@@ -85,9 +85,9 @@ export default function AnnouncementView({ isAdmin = false }) {
         enabledDatesArray.map(async (dateString) => {
           try {
             const selections = await getSelectedVolunteersByRole(dateString)
-            // 각 역할별로 첫 번째 ID만 사용 (표 형식이므로 한 명씩만)
+            // 해설은 배열로 저장 (두 명 가능), 나머지는 첫 번째 ID만 사용
             volunteersMap[dateString] = {
-              [ROLES.COMMENTARY]: selections[ROLES.COMMENTARY]?.[0] || null,
+              [ROLES.COMMENTARY]: selections[ROLES.COMMENTARY] || [],
               [ROLES.READING_1]: selections[ROLES.READING_1]?.[0] || null,
               [ROLES.READING_2]: selections[ROLES.READING_2]?.[0] || null,
               [ROLES.PRAYER_1]: selections[ROLES.PRAYER_1]?.[0] || null,
@@ -98,7 +98,7 @@ export default function AnnouncementView({ isAdmin = false }) {
           } catch (error) {
             console.error(`날짜 ${dateString} 봉사자 데이터 로드 오류:`, error)
             volunteersMap[dateString] = {
-              [ROLES.COMMENTARY]: null,
+              [ROLES.COMMENTARY]: [],
               [ROLES.READING_1]: null,
               [ROLES.READING_2]: null,
               [ROLES.PRAYER_1]: null,
@@ -186,7 +186,7 @@ export default function AnnouncementView({ isAdmin = false }) {
               <table className="volunteers-table">
                 <thead>
                   <tr>
-                    <th className="date-header">날짜/행사명</th>
+                    <th className="date-header">날짜</th>
                     <th>해설</th>
                     <th>1독서</th>
                     <th>2독서</th>
@@ -204,10 +204,22 @@ export default function AnnouncementView({ isAdmin = false }) {
                       if (!volunteerId) return ''
                       return volunteerMap[volunteerId]?.name || ''
                     }
+                    const getCommentaryNames = () => {
+                      const commentaryIds = volunteers[ROLES.COMMENTARY] || []
+                      if (!Array.isArray(commentaryIds) || commentaryIds.length === 0) return '-'
+                      const names = commentaryIds.map(id => getVolunteerName(id)).filter(name => name)
+                      if (names.length === 0) return '-'
+                      return names.map((name, idx) => (
+                        <span key={idx}>
+                          {name}
+                          {idx < names.length - 1 && <br />}
+                        </span>
+                      ))
+                    }
                     return (
                       <tr key={dateString} className={`table-row row-${index % 4}`}>
                         <td className="date-cell">{day.display}</td>
-                        <td>{getVolunteerName(volunteers[ROLES.COMMENTARY]) || '-'}</td>
+                        <td>{getCommentaryNames()}</td>
                         <td>{getVolunteerName(volunteers[ROLES.READING_1]) || '-'}</td>
                         <td>{getVolunteerName(volunteers[ROLES.READING_2]) || '-'}</td>
                         <td>{getVolunteerName(volunteers[ROLES.PRAYER_1]) || '-'}</td>

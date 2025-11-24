@@ -22,7 +22,7 @@ export function getSundaysInMonth(year, month) {
       return {
         date: date,
         dateString: format(date, 'yyyy-MM-dd'),
-        display: format(date, 'M월 d일 (E)', { locale: ko })
+        display: format(date, 'M/d (E)', { locale: ko })
       }
     })
     .filter(({ date }) => {
@@ -60,7 +60,7 @@ export function getAllDaysInMonth(year, month) {
   return days.map(date => ({
     date: date,
     dateString: format(date, 'yyyy-MM-dd'),
-    display: format(date, 'M월 d일 (E)', { locale: ko }),
+    display: format(date, 'M/d (E)', { locale: ko }),
     dayOfWeek: format(date, 'E', { locale: ko })
   }))
 }
@@ -83,7 +83,7 @@ export function getWeekendsInMonth(year, month) {
     .map(date => ({
       date: date,
       dateString: format(date, 'yyyy-MM-dd'),
-      display: format(date, 'M월 d일 (E)', { locale: ko }),
+      display: format(date, 'M/d (E)', { locale: ko }),
       dayOfWeek: format(date, 'E', { locale: ko }),
       dayOfWeekNum: date.getDay() // 0: 일요일, 6: 토요일
     }))
