@@ -320,13 +320,20 @@
   font-size: 16px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .dates-grid {
     grid-template-columns: 1fr;
   }
   
   .volunteer-view {
-    padding: 15px;
+    padding: 10px 5px;
+    max-width: 100%;
+  }
+
+  .register-section,
+  .month-selector-section {
+    padding: 15px 10px;
+    border-radius: 0;
   }
 
   .volunteer-availability {

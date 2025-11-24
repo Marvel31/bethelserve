@@ -758,19 +758,21 @@
   transform: translateY(0);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .dates-grid {
     grid-template-columns: 1fr;
   }
   
   .admin-view {
-    padding: 16px;
+    padding: 10px 5px;
+    max-width: 100%;
   }
 
   .month-selector {
     flex-direction: row;
-    padding: 16px;
+    padding: 10px;
     gap: 12px;
+    border-radius: 0;
   }
 
   .month-selector button {
@@ -786,7 +788,14 @@
   }
 
   .open-status-section {
-    padding: 16px;
+    padding: 10px;
+    border-radius: 0;
+  }
+  
+  .volunteers-section,
+  .selection-section {
+    padding: 15px 10px;
+    border-radius: 0;
   }
 
   .open-status-control {

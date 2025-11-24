@@ -238,14 +238,16 @@
   font-style: italic;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .announcement-view {
-    padding: 15px;
+    padding: 10px 5px;
+    max-width: 100%;
   }
 
   .volunteers-table-container {
-    padding: 15px;
+    padding: 10px 5px;
     overflow-x: auto;
+    border-radius: 0;
   }
 
   .volunteers-table {
@@ -266,7 +268,13 @@
   }
 
   .announcement-section {
-    padding: 20px;
+    padding: 15px 10px;
+    border-radius: 0;
+  }
+
+  .month-selector {
+    padding: 10px;
+    border-radius: 0;
   }
 }
 
