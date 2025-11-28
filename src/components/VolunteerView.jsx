@@ -180,6 +180,8 @@ export default function VolunteerView() {
       newYear++
     }
     
+    setEnabledDates(new Set())  // 이전 달 enabledDates 제거
+    setAvailabilityByDate({})  // 이전 달 데이터 즉시 제거
     setMonth(newMonth)
     setYear(newYear)
   }
