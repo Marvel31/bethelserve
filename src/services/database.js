@@ -430,11 +430,15 @@ export async function getVolunteerServiceCount(volunteerId, year) {
   }
   
   const allSelections = snapshot.val()
-  
+
   // 해당 연도의 모든 날짜 데이터 순회
   for (const dateString in allSelections) {
+    // 날짜 문자열에서 연도(YYYY)만 안전하게 추출
+    const dateYearString = String(dateString).slice(0, 4)
+    const dateYear = Number(dateYearString)
+
     // 날짜가 해당 연도인지 확인
-    if (dateString.startsWith(year)) {
+    if (!Number.isNaN(dateYear) && dateYear === year) {
       const dateSelections = allSelections[dateString]?.selections || {}
       
       // 해설 카운트

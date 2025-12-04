@@ -1,23 +1,15 @@
 import { useState, useEffect } from 'react'
-import { getAllDaysInMonth } from '../utils/dateUtils'
 import { 
-  getEnabledDates, 
-  getSelectedVolunteersByRole,
-  getAllVolunteers,
   getAnnouncementByMonth,
   setAnnouncementByMonth,
-  getMonthOpenStatus,
-  ROLES
+  getMonthOpenStatus
 } from '../services/database'
+import MonthlyVolunteerTable from './MonthlyVolunteerTable'
 import './AnnouncementView.css'
 
 export default function AnnouncementView({ isAdmin = false }) {
   const [year, setYear] = useState(new Date().getFullYear())
   const [month, setMonth] = useState(new Date().getMonth() + 1)
-  const [allDays, setAllDays] = useState([])
-  const [enabledDates, setEnabledDates] = useState(new Set())
-  const [volunteersByDate, setVolunteersByDate] = useState({}) // { dateString: { role: volunteerId } }
-  const [volunteerMap, setVolunteerMap] = useState({}) // { volunteerId: { name, ... } }
   const [announcement, setAnnouncement] = useState('')
   const [editingAnnouncement, setEditingAnnouncement] = useState('')
   const [isMonthOpen, setIsMonthOpen] = useState(false)
@@ -25,36 +17,12 @@ export default function AnnouncementView({ isAdmin = false }) {
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    updateAllDays()
-    loadEnabledDates()
     loadMonthOpenStatus()
   }, [year, month])
 
   useEffect(() => {
-    if (enabledDates.size > 0) {
-      loadVolunteersData()
-    }
     loadAnnouncementData()
-  }, [enabledDates, year, month])
-
-  const updateAllDays = () => {
-    const daysList = getAllDaysInMonth(year, month)
-    setAllDays(daysList)
-  }
-
-  const loadEnabledDates = async () => {
-    try {
-      const savedEnabledDates = await getEnabledDates(year, month)
-      if (savedEnabledDates === null) {
-        setEnabledDates(new Set())
-      } else {
-        setEnabledDates(new Set(savedEnabledDates))
-      }
-    } catch (error) {
-      console.error('활성화된 날짜 로드 오류:', error)
-      setEnabledDates(new Set())
-    }
-  }
+  }, [year, month])
 
   const loadMonthOpenStatus = async () => {
     try {
@@ -162,8 +130,6 @@ export default function AnnouncementView({ isAdmin = false }) {
     setYear(newYear)
   }
 
-  const selectedDays = allDays.filter(day => enabledDates.has(day.dateString))
-
   return (
     <div className="announcement-view">
       <div className="header">
@@ -180,59 +146,11 @@ export default function AnnouncementView({ isAdmin = false }) {
         <div className="loading">로딩 중...</div>
       ) : (
         <>
-          {selectedDays.length > 0 && (
-            <div className="volunteers-table-container">
-              <h2>{year}년 {month}월 봉사표</h2>
-              <table className="volunteers-table">
-                <thead>
-                  <tr>
-                    <th className="date-header">날짜</th>
-                    <th>해설</th>
-                    <th>1독서</th>
-                    <th>2독서</th>
-                    <th>보편1</th>
-                    <th>보편2</th>
-                    <th>보편3</th>
-                    <th>보편4</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedDays.map((day, index) => {
-                    const dateString = day.dateString
-                    const volunteers = volunteersByDate[dateString] || {}
-                    const getVolunteerName = (volunteerId) => {
-                      if (!volunteerId) return ''
-                      return volunteerMap[volunteerId]?.name || ''
-                    }
-                    const getCommentaryNames = () => {
-                      const commentaryIds = volunteers[ROLES.COMMENTARY] || []
-                      if (!Array.isArray(commentaryIds) || commentaryIds.length === 0) return '-'
-                      const names = commentaryIds.map(id => getVolunteerName(id)).filter(name => name)
-                      if (names.length === 0) return '-'
-                      return names.map((name, idx) => (
-                        <span key={idx}>
-                          {name}
-                          {idx < names.length - 1 && <br />}
-                        </span>
-                      ))
-                    }
-                    return (
-                      <tr key={dateString} className={`table-row row-${index % 4}`}>
-                        <td className="date-cell">{day.display}</td>
-                        <td>{getCommentaryNames()}</td>
-                        <td>{getVolunteerName(volunteers[ROLES.READING_1]) || '-'}</td>
-                        <td>{getVolunteerName(volunteers[ROLES.READING_2]) || '-'}</td>
-                        <td>{getVolunteerName(volunteers[ROLES.PRAYER_1]) || '-'}</td>
-                        <td>{getVolunteerName(volunteers[ROLES.PRAYER_2]) || '-'}</td>
-                        <td>{getVolunteerName(volunteers[ROLES.PRAYER_3]) || '-'}</td>
-                        <td>{getVolunteerName(volunteers[ROLES.PRAYER_4]) || '-'}</td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
+          <MonthlyVolunteerTable
+            year={year}
+            month={month}
+            compact={false}
+          />
 
           <div className="announcement-section">
             <h3>공지사항</h3>

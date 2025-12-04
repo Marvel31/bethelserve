@@ -15,6 +15,7 @@ import {
   getSelectedVolunteersByRole,
   getVolunteerServiceCount
 } from '../services/database'
+import MonthlyVolunteerTable from './MonthlyVolunteerTable'
 import './AdminView.css'
 
 export default function AdminView() {
@@ -329,6 +330,7 @@ export default function AdminView() {
           weekends={weekends}
           volunteers={volunteers}
           year={year}
+          month={month}
         />
       )}
 
@@ -583,7 +585,7 @@ function StatusTab({ year, month, enabledDates, isMonthOpen, handleMonthChange }
 }
 
 // 역할별 봉사자 선택 탭 컴포넌트
-function VolunteerSelectionTab({ enabledDates, weekends, volunteers, year }) {
+function VolunteerSelectionTab({ enabledDates, weekends, volunteers, year, month }) {
   const [selectedDate, setSelectedDate] = useState(null)
   const [availableVolunteers, setAvailableVolunteers] = useState([])
   const [volunteerCounts, setVolunteerCounts] = useState({}) // { volunteerId: { commentary, reading, prayer } }
@@ -773,6 +775,14 @@ function VolunteerSelectionTab({ enabledDates, weekends, volunteers, year }) {
 
   return (
     <div className="selection-section">
+      <MonthlyVolunteerTable
+        year={year}
+        month={month}
+        selectedDate={selectedDate}
+        onSelectDate={setSelectedDate}
+        compact={true}
+      />
+
       <div className="date-selector">
         <h3>날짜 선택</h3>
         <div className="date-buttons-grid">
