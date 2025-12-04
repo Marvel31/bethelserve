@@ -6,6 +6,7 @@ import VolunteerView from './components/VolunteerView'
 import AdminView from './components/AdminView'
 import AnnouncementView from './components/AnnouncementView'
 import UniversalPrayerView from './components/UniversalPrayerView'
+import ApplicationStatusView from './components/ApplicationStatusView'
 import './App.css'
 import 'antd/dist/reset.css'
 
@@ -14,7 +15,7 @@ const ADMIN_PASSWORD = 'admin123'
 
 export default function App() {
   // 항상 공지사항 모드로 시작
-  const [mode, setMode] = useState('announcement') // 'volunteer', 'admin', 'announcement', 'universal'
+  const [mode, setMode] = useState('announcement') // 'volunteer', 'admin', 'announcement', 'universal', 'applicationStatus'
   const [isAdmin, setIsAdmin] = useState(false)
   const [passwordInput, setPasswordInput] = useState('')
   const [showPasswordInput, setShowPasswordInput] = useState(false)
@@ -85,6 +86,7 @@ export default function App() {
             {mode === 'admin' && isAdmin && <AdminView key="admin" />}
             {mode === 'announcement' && <AnnouncementView key="announcement" isAdmin={isAdmin} />}
             {mode === 'universal' && <UniversalPrayerView key="universal" />}
+            {mode === 'applicationStatus' && <ApplicationStatusView key="applicationStatus" />}
           </main>
         </Layout>
       </div>

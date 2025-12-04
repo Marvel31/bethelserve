@@ -9,6 +9,7 @@ import {
   UserOutlined,
   LogoutOutlined,
   LoginOutlined,
+  CalendarOutlined,
 } from '@ant-design/icons';
 
 const { Header, Content, Sider } = AntLayout;
@@ -62,6 +63,15 @@ export default function Layout({
         },
       },
       {
+        key: 'applicationStatus',
+        icon: <CalendarOutlined />,
+        label: '봉사 신청 현황',
+        onClick: () => {
+          onModeChange('applicationStatus');
+          if (isMobile) setMobileDrawerOpen(false);
+        },
+      },
+      {
         key: 'universal',
         icon: <BookOutlined />,
         label: '보편',
@@ -110,6 +120,7 @@ export default function Layout({
     const labels = {
       announcement: '공지사항',
       volunteer: '봉사 신청',
+       applicationStatus: '봉사 신청 현황',
       universal: '보편',
       admin: '설정',
     };
