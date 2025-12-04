@@ -695,6 +695,17 @@ function VolunteerSelectionTab({ enabledDates, weekends, volunteers, year, month
         alert('독서와 해설은 중복 선택할 수 없습니다.')
         return
       }
+
+      // 독서1과 독서2는 서로 중복 선택 불가
+      if (role === ROLES.READING_1 && roleSelections[ROLES.READING_2].includes(volunteerId)) {
+        alert('이미 독서2로 선택된 봉사자는 독서1으로 선택할 수 없습니다.')
+        return
+      }
+
+      if (role === ROLES.READING_2 && roleSelections[ROLES.READING_1].includes(volunteerId)) {
+        alert('이미 독서1로 선택된 봉사자는 독서2로 선택할 수 없습니다.')
+        return
+      }
     }
 
     if (isSelected) {
@@ -841,7 +852,8 @@ function VolunteerSelectionTab({ enabledDates, weekends, volunteers, year, month
                   {availableVolunteers.map(volunteer => {
                     const isSelected = roleSelections[ROLES.READING_1].includes(volunteer.id)
                     const isSelectedInCommentary = roleSelections[ROLES.COMMENTARY].includes(volunteer.id)
-                    const disabled = isSelectedInCommentary
+                    const isSelectedInReading2 = roleSelections[ROLES.READING_2].includes(volunteer.id)
+                    const disabled = isSelectedInCommentary || isSelectedInReading2
                     const count = getRoleSpecificCount(volunteer.id, 'reading')
                     return (
                       <label key={volunteer.id} className={`checkbox-label ${disabled ? 'disabled' : ''}`}>
@@ -852,7 +864,13 @@ function VolunteerSelectionTab({ enabledDates, weekends, volunteers, year, month
                           onChange={() => handleRoleToggle(volunteer.id, ROLES.READING_1)}
                         />
                         <span>
-                          {volunteer.name} {count !== null && count > 0 && `(${count})`} {disabled && '(해설 선택됨)'}
+                          {volunteer.name} {count !== null && count > 0 && `(${count})`}{' '}
+                          {disabled &&
+                            (isSelectedInCommentary
+                              ? '(해설 선택됨)'
+                              : isSelectedInReading2
+                                ? '(2독서 선택됨)'
+                                : '')}
                         </span>
                       </label>
                     )
@@ -869,7 +887,8 @@ function VolunteerSelectionTab({ enabledDates, weekends, volunteers, year, month
                   {availableVolunteers.map(volunteer => {
                     const isSelected = roleSelections[ROLES.READING_2].includes(volunteer.id)
                     const isSelectedInCommentary = roleSelections[ROLES.COMMENTARY].includes(volunteer.id)
-                    const disabled = isSelectedInCommentary
+                    const isSelectedInReading1 = roleSelections[ROLES.READING_1].includes(volunteer.id)
+                    const disabled = isSelectedInCommentary || isSelectedInReading1
                     const count = getRoleSpecificCount(volunteer.id, 'reading')
                     return (
                       <label key={volunteer.id} className={`checkbox-label ${disabled ? 'disabled' : ''}`}>
@@ -880,7 +899,13 @@ function VolunteerSelectionTab({ enabledDates, weekends, volunteers, year, month
                           onChange={() => handleRoleToggle(volunteer.id, ROLES.READING_2)}
                         />
                         <span>
-                          {volunteer.name} {count !== null && count > 0 && `(${count})`} {disabled && '(해설 선택됨)'}
+                          {volunteer.name} {count !== null && count > 0 && `(${count})`}{' '}
+                          {disabled &&
+                            (isSelectedInCommentary
+                              ? '(해설 선택됨)'
+                              : isSelectedInReading1
+                                ? '(1독서 선택됨)'
+                                : '')}
                         </span>
                       </label>
                     )
