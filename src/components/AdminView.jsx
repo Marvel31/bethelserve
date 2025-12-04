@@ -76,8 +76,14 @@ export default function AdminView() {
       const status = await getMonthOpenStatus(year, month)
       setIsMonthOpen(status)
     } catch (error) {
-      console.error('월별 오픈 상태 로드 오류:', error)
-      setIsMonthOpen(false)
+      // Permission denied 에러는 Firebase 보안 규칙 문제이므로 기본값(false) 사용
+      if (error.message && error.message.includes('Permission denied')) {
+        console.warn('월별 오픈 상태 로드 권한 없음 (기본값: 닫힘으로 설정)')
+        setIsMonthOpen(false)
+      } else {
+        console.error('월별 오픈 상태 로드 오류:', error)
+        setIsMonthOpen(false)
+      }
     }
   }
 

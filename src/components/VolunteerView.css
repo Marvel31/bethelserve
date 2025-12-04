@@ -74,27 +74,16 @@
 
 .volunteer-info {
   background: white;
-  padding: 20px 30px;
-  border-radius: 12px;
+  padding: 15px;
+  border-radius: 8px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  min-height: 70px;
-  width: 100%;
-  box-sizing: border-box;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .volunteer-info p {
   margin: 0;
-  color: #333;
-  font-size: 16px;
-  font-weight: 600;
-  text-align: left;
-  flex: 1;
+  color: #666;
 }
 
 .month-selector {
@@ -199,23 +188,19 @@
 }
 
 .change-name-button {
-  padding: 10px 20px;
+  margin-left: 10px;
+  padding: 6px 12px;
   background: #6c757d;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  border-radius: 4px;
+  font-size: 12px;
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
+  transition: background 0.3s;
 }
 
 .change-name-button:hover {
   background: #5a6268;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 .closed-notice {
@@ -335,38 +320,13 @@
   font-size: 16px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .dates-grid {
     grid-template-columns: 1fr;
   }
   
   .volunteer-view {
-    padding: 10px 5px;
-    max-width: 100%;
-  }
-
-  .register-section,
-  .month-selector-section {
-    padding: 15px 10px;
-    border-radius: 0;
-  }
-
-  .volunteer-info {
-    flex-direction: row !important;
-    padding: 20px 15px;
-    gap: 15px;
-    min-height: 70px;
-  }
-
-  .volunteer-info p {
-    font-size: 16px;
-    text-align: left;
-    flex: 1;
-  }
-
-  .change-name-button {
-    font-size: 13px;
-    padding: 10px 16px;
+    padding: 15px;
   }
 
   .volunteer-availability {

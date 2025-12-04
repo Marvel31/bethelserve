@@ -180,8 +180,6 @@ export default function VolunteerView() {
       newYear++
     }
     
-    setEnabledDates(new Set())  // 이전 달 enabledDates 제거
-    setAvailabilityByDate({})  // 이전 달 데이터 즉시 제거
     setMonth(newMonth)
     setYear(newYear)
   }
@@ -228,7 +226,7 @@ export default function VolunteerView() {
       ) : (
         <>
           <div className="volunteer-info">
-            <p><strong>{localStorage.getItem('volunteerName')}</strong></p>
+            <p>선택된 이름: <strong>{localStorage.getItem('volunteerName')}</strong></p>
             <button className="change-name-button" onClick={() => {
               setVolunteerId(null)
               setSelectedVolunteerName('')

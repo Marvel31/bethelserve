@@ -231,8 +231,7 @@
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .universal-prayer-view {
-    padding: 10px 5px;
-    max-width: 100%;
+    padding: 10px;
   }
 
   .prayers-grid {
@@ -240,14 +239,7 @@
   }
 
   .month-selector {
-    padding: 10px;
-    border-radius: 0;
-  }
-  
-  .date-list,
-  .prayers-container {
-    padding: 15px 10px;
-    border-radius: 0;
+    padding: 15px;
   }
 
   .month-display {
